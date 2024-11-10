@@ -6,7 +6,8 @@ A fork on the amazing Huggingface Chat UI that natively supports the Akash netwo
 
 0. [Quickstart Docker Build](#quickstart-docker-build)
 1. [Quickstart Deployment to Akash Network](#quickstart-deployment-to-akash-network)
-2. [Akash customizations on top of Huggingface](#akash-customizations-on-top-of-huggingface)
+2. [Running locally](#running-locally)
+3. [Akash customizations on top of Huggingface](#akash-customizations-on-top-of-huggingface)
 
 ## Quickstart Docker Build
 
@@ -21,7 +22,7 @@ Install the following programs if necessary:
 Clone this repository:
 
 ```bash
-git clone https://github.com/jhuang314/akash-chat-ui.git
+git clone https://github.com/jhuang314/akash-chat-ui
 cd akash-chat-ui
 ```
 
@@ -104,6 +105,31 @@ deployment:
 1. Wait a bit
 1. On the "Leases" tab, open the URI(s) link
 1. Enjoy using Huggingface's Chat UI, powered by Akash's Chat API!
+
+## Running Locally
+
+**Step 1 (make sure you have MongoDb running locally):**
+
+```bash
+docker run -d -p 27017:27017 --name mongo-chatui mongo:latest
+```
+
+**Step 2 (clone this repo if you haven't already):**
+
+```bash
+git clone https://github.com/jhuang314/akash-chat-ui
+cd akash-chat-ui
+```
+
+**Step 3 (start chat-ui):**
+
+```bash
+git clone https://github.com/jhuang314/akash-chat-ui
+cd akash-chat-ui
+npm install
+npm run dev -- --open
+```
+
 
 ## Akash customizations on top of Huggingface
 
