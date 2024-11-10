@@ -135,8 +135,11 @@ npm run dev -- --open
 
 Let's look at the `.env` file.
 
-Huggingface exposes a `MODELS` environment variable, which contains an array of model configurations. For each model, we can define the model name, displayName, endpoints, and sample prompts.
+Huggingface exposes a `MODELS` environment variable, which contains an array of model configurations.
+For each model, we can define the model name, displayName, endpoints, and sample prompts.
 Huggingface supports modifying the `baseURL` and api keys for the `openai` model type; however, it is cumbersome to define this large block of json in 1 variable.
 
-The solution is to define a new `src/lib/server/endpoints/akash/endpointAkash.ts`, which contains native configurations for Akash.
-This also allows us to define a new `AKASH_API_KEY` environment variable to hold the api keys. Finally, it allows us to provide defaults for the `baseURL` for Akash Chat API.
+The solution is to define a new [`src/lib/server/endpoints/akash/endpointAkash.ts`](https://github.com/jhuang314/akash-chat-ui/blob/main/src/lib/server/endpoints/akash/endpointAkash.ts)
+, which contains native configurations for Akash.
+This also allows us to define a new `AKASH_API_KEY` environment variable to hold the api keys.
+Finally, it allows us to provide defaults for the `baseURL` for Akash Chat API.
