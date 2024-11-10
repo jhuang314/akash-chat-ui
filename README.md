@@ -1,5 +1,7 @@
 # Akash Chat UI (Forked from Huggingface's Chat UI)
 
+![Akash Chat UI repository thumbnail](https://raw.githubusercontent.com/jhuang314/akash-chat-ui/refs/heads/main/image.png)
+
 A fork on the amazing Huggingface Chat UI that natively supports the Akash network!
 
 0. [Quickstart Docker Build](#quickstart-docker-build)
