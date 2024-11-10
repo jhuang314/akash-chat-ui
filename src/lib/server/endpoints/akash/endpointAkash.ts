@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AKASH_API_KEY } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 import type { Endpoint } from "../endpoints";
 import { openAICompletionToTextGenerationStream } from "../openai/openAICompletionToTextGenerationStream";
 import { openAIChatToTextGenerationStream } from "../openai/openAIChatToTextGenerationStream";
@@ -10,7 +10,7 @@ export const endpointAkashParametersSchema = z.object({
 	model: z.any(),
 	type: z.literal("akash"),
 	baseURL: z.string().url().default("https://chatapi.akash.network/api/v1"),
-	apiKey: z.string().default(AKASH_API_KEY ?? "sk-"),
+	apiKey: z.string().default(env.AKASH_API_KEY ?? "sk-"),
 	completion: z
 		.union([z.literal("completions"), z.literal("chat_completions")])
 		.default("chat_completions"),
