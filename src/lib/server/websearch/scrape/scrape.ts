@@ -58,7 +58,7 @@ export async function scrapeUrl(url: string, maxCharsPerElem: number) {
 			};
 		}
 
-		const scrapedOutput = await timeout(page.evaluate(spatialParser), 2000)
+		const scrapedOutput = await timeout(page.evaluate(spatialParser), 20000)
 			.then(({ elements, ...parsed }) => ({
 				...parsed,
 				markdownTree: htmlToMarkdownTree(parsed.title, elements, maxCharsPerElem),

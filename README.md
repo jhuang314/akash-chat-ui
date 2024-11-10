@@ -26,6 +26,12 @@ git clone https://github.com/jhuang314/akash-chat-ui
 cd akash-chat-ui
 ```
 
+Install playwright to support local websearch:
+
+```bash
+sudo npx playwright install-deps
+```
+
 Build the docker image:
 
 ```bash
@@ -53,6 +59,18 @@ Here are the instructions for taking a Docker image and deploying it to the Akas
 **Step 1 (Copy the YAML SDL config)**
 
 Copy and modify the following SDL file (but replace `<YOUR_AKASH_CHAT_API_KEY>` with your actual Akash API key).
+If you want to enable web searching, set the appropriate environment variable with your search api key:
+
+```bash
+YDC_API_KEY=#your docs.you.com api key here
+SERPER_API_KEY=#your serper.dev api key here
+SERPAPI_KEY=#your serpapi key here
+SERPSTACK_API_KEY=#your serpstack api key here
+SEARCHAPI_KEY=#your searchapi api key here
+USE_LOCAL_WEBSEARCH=#set to true to parse google results yourself, overrides other API keys
+SEARXNG_QUERY_URL=# where '<query>' will be replaced with query keywords see https://docs.searxng.org/dev/search_api.html eg https://searxng.yourdomain.com/search?q=<query>&engines=duckduckgo,google&format=json
+BING_SUBSCRIPTION_KEY=#your key
+```
 
 If you built and pushed your own Docker image, feel free to replace `jh3141/akash-chat-ui:0.0.10` with your own.
 
