@@ -2,8 +2,8 @@
 
 A fork on the amazing Huggingface Chat UI that natively supports the Akash network!
 
-0. [Quickstart](#quickstart-docker-build)
-1. [No Setup Deploy](#quickstart-deployment-to-akash-network)
+0. [Quickstart Docker Build](#quickstart-docker-build)
+1. [Quickstart Deployment to Akash Network](#quickstart-deployment-to-akash-network)
 
 
 ## Quickstart Docker Build
@@ -48,6 +48,7 @@ docker push jh3141/akash-chat-ui:0.0.10
 Here are the instructions for taking a Docker image and deploying it to the Akash Network!
 
 **Step 1 (Copy the YAML SDL config)**
+
 Copy and modify the following SDL file (but replace `<YOUR_AKASH_CHAT_API_KEY>` with your actual Akash API key).
 
 If you built and pushed your own Docker image, feel free to replace `jh3141/akash-chat-ui:0.0.10` with your own.
