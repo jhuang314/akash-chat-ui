@@ -17,6 +17,20 @@ function loadTTFAsArrayBuffer() {
 	};
 }
 
+/* This is necessary for TranscribeJS to load shout.wasm.worker.mjs */
+const viteServerConfig = () => ({
+	name: "add-headers",
+	configureServer: (server) => {
+		server.middlewares.use((req, res, next) => {
+			res.setHeader("Access-Control-Allow-Origin", "*");
+			res.setHeader("Access-Control-Allow-Methods", "GET");
+			res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+			res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+			next();
+		});
+	},
+});
+
 export default defineConfig({
 	plugins: [
 		sveltekit(),
@@ -24,6 +38,7 @@ export default defineConfig({
 			compiler: "svelte",
 		}),
 		loadTTFAsArrayBuffer(),
+		viteServerConfig(),
 	],
 	optimizeDeps: {
 		include: [
@@ -32,6 +47,7 @@ export default defineConfig({
 			"@huggingface/transformers",
 			"sharp",
 			"@gradio/client",
+			"@transcribe/transcriber",
 		],
 	},
 	server: {

@@ -16,6 +16,7 @@ import { initExitHandler } from "$lib/server/exitHandler";
 import { ObjectId } from "mongodb";
 import { refreshAssistantsCounts } from "$lib/jobs/refresh-assistants-counts";
 import { refreshConversationStats } from "$lib/jobs/refresh-conversation-stats";
+import { webSearchParameters } from "$lib/stores/webSearchParameters";
 
 // TODO: move this code on a started server hook, instead of using a "building" flag
 if (!building) {
@@ -68,6 +69,11 @@ export const handleError: HandleServerError = async ({ error, event, status, mes
 		message: "An error occurred",
 		errorId,
 	};
+};
+
+const securityHeaders = {
+	"Cross-Origin-Embedder-Policy": "credentialless",
+	"Cross-Origin-Opener-Policy": "same-origin",
 };
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -297,6 +303,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (env.ALLOW_IFRAME !== "true") {
 		response.headers.append("Content-Security-Policy", "frame-ancestors 'none';");
 	}
+
+	console.log("headers", event.url.pathname);
+	console.log("websearch toggle", webSearchParameters.useSearch);
+
+	// securityHeaders needed for service workers, but kills the websearch icons.
+	// if (event.url.pathname.includes('model-loader.worker')) {
+	Object.entries(securityHeaders).forEach(([header, value]) => response.headers.set(header, value));
+
+	// }
 
 	return response;
 };

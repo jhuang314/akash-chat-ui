@@ -7,8 +7,11 @@
 	import CarbonStopFilledAlt from "~icons/carbon/stop-filled-alt";
 	import CarbonCheckmark from "~icons/carbon/checkmark";
 	import CarbonCaretDown from "~icons/carbon/caret-down";
+	import CarbonMicrophone from "~icons/carbon/microphone";
 
 	import EosIconsLoading from "~icons/eos-icons/loading";
+
+	import Transcribe from "$lib/components/transcribe/Transcribe.svelte";
 
 	import ChatInput from "./ChatInput.svelte";
 	import StopGeneratingBtn from "../StopGeneratingBtn.svelte";
@@ -37,6 +40,25 @@
 	import { useSettingsStore } from "$lib/stores/settings";
 	import type { ToolFront } from "$lib/types/Tool";
 	import ModelSwitch from "./ModelSwitch.svelte";
+
+	// import createModule from "@transcribe/shout";
+	// import { StreamTranscriber  } from "@transcribe/transcribe";
+
+ //    const streamTranscriber = new StreamTranscriber({
+ //        createModule, // create module function from emscripten build
+ //        model: "/chatui/ggml-tiny-q5_1.bin", // path to ggml model file
+ //        workerPath: "/src/lib/transcribe/shout", // directory of shout.wasm.worker.mjs copied before
+ //        audioWorkletsPath: "/src/lib/transcribe/audio-worklets", // set path to directory of vad.js, buffer.js
+
+ //        // called on new transcription
+ //        onSegment: (segment) => {
+ //            console.log(segment);
+ //        },
+ //    });
+
+ //    // init wasm transcriber worker
+ //    streamTranscriber.init();
+
 
 	import { fly } from "svelte/transition";
 	import { cubicInOut } from "svelte/easing";
@@ -476,6 +498,8 @@
 							>
 								<CarbonSendAltFilled />
 							</button>
+
+							<Transcribe />
 						{/if}
 					</div>
 				{/if}
