@@ -5,6 +5,7 @@
   import createModule from "$lib/transcribe/shout/shout.wasm.js";
   import { StreamTranscriber  } from "$lib/transcribe";
   import { preload, preloadModel } from "./transcribe.svelte.js";
+  import { messageInput } from "$lib/stores/message";
 
   const modelFile = '/chatui/ggml-tiny-q5_1.bin';
   let transcribedText = '';
@@ -43,7 +44,11 @@ modelLoaded = true;
       // document.querySelector(".transcript").innerText =
       //   result?.segment?.text ?? "";
       console.log('got result', result);
-      console.log('transcription:', result?.segment?.text);
+      const resultText = result?.segment?.text;
+
+      if (resultText.length) {
+        messageInput.set(resultText);
+      }
     },
 
     // on status change callback

@@ -40,6 +40,7 @@
 	import { useSettingsStore } from "$lib/stores/settings";
 	import type { ToolFront } from "$lib/types/Tool";
 	import ModelSwitch from "./ModelSwitch.svelte";
+	import { messageInput } from "$lib/stores/message";
 
 	// import createModule from "@transcribe/shout";
 	// import { StreamTranscriber  } from "@transcribe/transcribe";
@@ -82,6 +83,7 @@
 	let isSharedRecently = false;
 	$: pastedLongContent = false;
 	$: $page.params.id && (isSharedRecently = false);
+	$: message = $messageInput;
 
 	const dispatch = createEventDispatcher<{
 		message: string;
