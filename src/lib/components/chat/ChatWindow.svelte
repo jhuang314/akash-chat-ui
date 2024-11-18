@@ -523,7 +523,8 @@
 					or false.
 				</p>
 				{#if $whisperLoading}
-				    <span class="max-sm:hidden">·</span><br class="sm:hidden" /> <p>WASM Whisper model downloading...</p>
+					<span class="max-sm:hidden">·</span><br class="sm:hidden" />
+					<p>WASM Whisper model downloading...</p>
 				{/if}
 				{#if messages.length}
 					<button

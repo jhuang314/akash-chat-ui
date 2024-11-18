@@ -16,8 +16,9 @@ Here are the instructions for building your own Docker image from this repositor
 **Step 1 (Install dependencies)**
 
 Install the following programs if necessary:
- * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
- * git
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- git
 
 Clone this repository:
 
@@ -49,8 +50,6 @@ docker push my-username/my-image:my-tag
 # An explicit example:
 docker push jh3141/akash-chat-ui:0.0.10
 ```
-
-
 
 ## Quickstart Deployment to Akash Network
 
@@ -147,7 +146,6 @@ cd akash-chat-ui
 npm install
 npm run dev -- --open
 ```
-
 
 ## Akash customizations on top of Huggingface
 
