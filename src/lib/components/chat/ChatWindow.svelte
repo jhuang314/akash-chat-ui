@@ -41,25 +41,7 @@
 	import type { ToolFront } from "$lib/types/Tool";
 	import ModelSwitch from "./ModelSwitch.svelte";
 	import { messageInput } from "$lib/stores/message";
-
-	// import createModule from "@transcribe/shout";
-	// import { StreamTranscriber  } from "@transcribe/transcribe";
-
- //    const streamTranscriber = new StreamTranscriber({
- //        createModule, // create module function from emscripten build
- //        model: "/chatui/ggml-tiny-q5_1.bin", // path to ggml model file
- //        workerPath: "/src/lib/transcribe/shout", // directory of shout.wasm.worker.mjs copied before
- //        audioWorkletsPath: "/src/lib/transcribe/audio-worklets", // set path to directory of vad.js, buffer.js
-
- //        // called on new transcription
- //        onSegment: (segment) => {
- //            console.log(segment);
- //        },
- //    });
-
- //    // init wasm transcriber worker
- //    streamTranscriber.init();
-
+	import { whisperLoading } from "$lib/stores/whisperLoading";
 
 	import { fly } from "svelte/transition";
 	import { cubicInOut } from "svelte/easing";
@@ -540,6 +522,9 @@
 					<span class="max-sm:hidden">·</span><br class="sm:hidden" /> Generated content may be inaccurate
 					or false.
 				</p>
+				{#if $whisperLoading}
+				    <span class="max-sm:hidden">·</span><br class="sm:hidden" /> <p>WASM Whisper model downloading...</p>
+				{/if}
 				{#if messages.length}
 					<button
 						class="flex flex-none items-center hover:text-gray-400 max-sm:rounded-lg max-sm:bg-gray-50 max-sm:px-2.5 dark:max-sm:bg-gray-800"

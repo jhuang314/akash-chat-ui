@@ -7,6 +7,11 @@
   import { StreamTranscriber  } from "$lib/transcribe";
   // import { preload, preloadModel } from "./transcribe.svelte.js";
   import { messageInput } from "$lib/stores/message";
+  import { whisperLoading } from "$lib/stores/whisperLoading";
+  import { onMount } from 'svelte';
+
+
+
 
   const modelFile = '/chatui/ggml-tiny-q5_1.bin';
   let transcribedText = '';
@@ -15,21 +20,43 @@
   let modelLoaded = false;
   let voiceActive = false;
 
+  // Preload the model file to speed things up.
+  onMount(() => {
+  	console.log('the component has mounted');
 
-  // preloadModel(
-  //         modelFile,
-  //         (msg) => (console.log(msg))
-  //       ).then((loaded) => {
-  //         modelLoaded = loaded;
-  //         // if (loaded) {
-  //         //   document.querySelector(".audio").removeAttribute("disabled");
-  //         //   document.querySelector(".start").removeAttribute("disabled");
-  //         //   document.querySelector(".stop").removeAttribute("disabled");
-  //         // }
-  //       });
-modelLoaded = true;
+   // fetch model file after confirm
+   async function preload(modelFile, printConsole) {
+      printConsole("Downloading model file... please wait.");
+      whisperLoading.set(true);
+      await fetch(modelFile);
+      printConsole("Model file downloaded. You can now start transcribing.");
+      whisperLoading.set(false);
+      return true;
+   }
 
+   // check if model file is cached, if not, preload
+   // change cache name to update model file in cache
+   async function preloadModel(modelFile, printConsole = console.log) {
+     const hasCache = await caches.has("model-v1");
+     if (hasCache) return true;
 
+     if (await preload(modelFile, printConsole)) {
+       return true;
+     } else {
+       return false;
+     }
+   }
+
+   preloadModel(
+      modelFile,
+      (msg) => (console.log(msg))
+    ).then((loaded) => {
+      if (loaded) {
+        console.log('model loaded!');
+        modelLoaded = true;
+      }
+    });
+  });
 
 
 
@@ -44,8 +71,6 @@ modelLoaded = true;
 
     // on transcribe callback
     onSegment: (result) => {
-      // document.querySelector(".transcript").innerText =
-      //   result?.segment?.text ?? "";
       console.log('got result', result);
       const resultText = result?.segment?.text;
 
@@ -57,8 +82,6 @@ modelLoaded = true;
     // on status change callback
     onStreamStatus: (status) => {
       console.log('got status', status);
-
-      //document.querySelector(".status").innerText = status;
     },
   });
 
