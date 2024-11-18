@@ -1,4 +1,4 @@
-import adapter from "@sveltejs/adapter-node";
+import adapter from "./adapter-node-coep/index.js";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import dotenv from "dotenv";
 import { execSync } from "child_process";

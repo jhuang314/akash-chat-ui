@@ -57,6 +57,8 @@ export async function POST({ request, locals, params, getClientAddress }) {
 		);
 
 		if (!res.acknowledged) {
+			logger.error(res.acknowledged);
+			logger.error("Failed to convert conversation");
 			error(500, "Failed to convert conversation");
 		}
 	}
@@ -236,8 +238,12 @@ export async function POST({ request, locals, params, getClientAddress }) {
 
 		const messageToRetry = conv.messages.find((message) => message.id === messageId);
 
+		logger.info("all messages");
+		logger.info(conv.messages.map((m) => ({ id: m.id, content: m.content })));
+		logger.info(messageId);
+
 		if (!messageToRetry) {
-			error(404, "Message not found");
+			error(404, "Message not found, welp");
 		}
 
 		if (messageToRetry.from === "user" && newPrompt) {
@@ -307,9 +313,11 @@ export async function POST({ request, locals, params, getClientAddress }) {
 
 	const messageToWriteTo = conv.messages.find((message) => message.id === messageToWriteToId);
 	if (!messageToWriteTo) {
+		logger.error("Failed to create message");
 		error(500, "Failed to create message");
 	}
 	if (messagesForPrompt.length === 0) {
+		logger.error("Failed to create prompt");
 		error(500, "Failed to create prompt");
 	}
 

@@ -16,7 +16,6 @@ import { initExitHandler } from "$lib/server/exitHandler";
 import { ObjectId } from "mongodb";
 import { refreshAssistantsCounts } from "$lib/jobs/refresh-assistants-counts";
 import { refreshConversationStats } from "$lib/jobs/refresh-conversation-stats";
-import { webSearchParameters } from "$lib/stores/webSearchParameters";
 
 // TODO: move this code on a started server hook, instead of using a "building" flag
 if (!building) {
@@ -231,14 +230,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 				return errorResponse(403, "Non-JSON form requests need to have an origin");
 			}
 
-			const validOrigins = [
-				new URL(event.request.url).host,
-				...(envPublic.PUBLIC_ORIGIN ? [new URL(envPublic.PUBLIC_ORIGIN).host] : []),
-			];
+			// TODO: add proxy origin here!
+			// const validOrigins = [
+			// 	new URL(event.request.url).host,
+			// 	...(envPublic.PUBLIC_ORIGIN ? [new URL(envPublic.PUBLIC_ORIGIN).host] : []),
+			// ];
 
-			if (!validOrigins.includes(new URL(origin).host)) {
-				return errorResponse(403, "Invalid referer for POST request");
-			}
+			// if (!validOrigins.includes(new URL(origin).host)) {
+			// 	return errorResponse(403, "Invalid referer for POST request");
+			// }
 		}
 	}
 
@@ -305,7 +305,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	console.log("headers", event.url.pathname);
-	console.log("websearch toggle", webSearchParameters.useSearch);
 
 	// securityHeaders needed for service workers, but kills the websearch icons.
 	// if (event.url.pathname.includes('model-loader.worker')) {

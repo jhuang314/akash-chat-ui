@@ -9,8 +9,7 @@ WORKDIR /app
 
 COPY --link --chown=1000 package-lock.json package.json ./
 
-
-
+COPY . ./app
 
 ARG APP_BASE=
 ARG PUBLIC_APP_COLOR=blue
@@ -22,14 +21,14 @@ RUN --mount=type=cache,target=/app/.npm \
 
 COPY --link --chown=1000 . .
 
-# RUN git config --global --add safe.directory /app && \
-#     PUBLIC_COMMIT_SHA=$(git rev-parse HEAD) && \
-#     echo "PUBLIC_COMMIT_SHA=$PUBLIC_COMMIT_SHA" >> /app/.env
-
 RUN git config --global --add safe.directory /app && \
     PUBLIC_COMMIT_SHA=$(git rev-parse HEAD) && \
-    echo "PUBLIC_COMMIT_SHA=$PUBLIC_COMMIT_SHA" >> /app/.env && \
-    npm run build
+    echo "PUBLIC_COMMIT_SHA=$PUBLIC_COMMIT_SHA" >> /app/.env
+
+# RUN git config --global --add safe.directory /app && \
+#     PUBLIC_COMMIT_SHA=$(git rev-parse HEAD) && \
+#     echo "PUBLIC_COMMIT_SHA=$PUBLIC_COMMIT_SHA" >> /app/.env && \
+#     npm run build
 
 # mongo image
 FROM mongo:7 AS mongo
@@ -78,9 +77,6 @@ WORKDIR /app
 # add a .env.local if the user doesn't bind a volume to it
 RUN touch /app/.env.local
 
-# Copy over everything for npm run dev to work
-#COPY . .
-
 # get the default config, the entrypoint script and the server script
 COPY --chown=1000 package.json /app/package.json
 COPY --chown=1000 .env /app/.env
@@ -91,18 +87,12 @@ COPY --chown=1000 gcp-*.json /app/
 COPY --from=builder --chown=1000 /app/build /app/build
 COPY --from=builder --chown=1000 /app/node_modules /app/node_modules
 
-# copy over the proxy
-COPY --chown=1000 proxy.js /app/proxy.js
-
 RUN npx playwright install
 
 USER root
 RUN npx playwright install-deps
 USER user
 
-
-
 RUN chmod +x /app/entrypoint.sh
-
 
 CMD ["/bin/bash", "-c", "/app/entrypoint.sh"]

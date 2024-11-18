@@ -1,6 +1,5 @@
 import FFT from "./fft.js";
 
-export const blah = 3;
 /**
  * AudioWorkletProcessor for Voice Activity Detection (VAD).
  *

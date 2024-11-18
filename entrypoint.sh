@@ -16,4 +16,7 @@ fi;
 
 export PUBLIC_VERSION=$(node -p "require('./package.json').version")
 
+nohup node /app/proxy.js &
+
 dotenv -e /app/.env -c -- node /app/build/index.js -- --host 0.0.0.0 --port 3000
+#dotenv -e /app/.env -c -- npm run dev -- --host 0.0.0.0 --port 3000

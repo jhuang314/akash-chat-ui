@@ -7,6 +7,8 @@ node_modules
 .env.*
 !.env.example
 /src/lib/transcribe
+/static/transcribe
+/adapter-node-coep
 
 # Ignore files for PNPM, NPM and YARN
 pnpm-lock.yaml

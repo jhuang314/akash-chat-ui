@@ -40,18 +40,37 @@ export default defineConfig({
 		loadTTFAsArrayBuffer(),
 		viteServerConfig(),
 	],
+	//publicDir: 'public',
 	optimizeDeps: {
+		exclude: [
+			"./src/lib/transcribe/shout/shout.wasm.js",
+			"./src/lib/transcribe/shout/shout.wasm.worker.mjs",
+			"@transcribe/transcriber",
+			"@transcribe/shout",
+		],
 		include: [
 			"browser-image-resizer",
 			"uuid",
 			"@huggingface/transformers",
 			"sharp",
 			"@gradio/client",
-			"@transcribe/transcriber",
 		],
 	},
 	server: {
 		open: "/",
+		headers: {
+			"Cross-Origin-Embedder-Policy": "require-corp",
+			"Cross-Origin-Opener-Policy": "same-origin",
+		},
+		// host: '0.0.0.0',
+	},
+	// iife breaks build, and need to target es2022
+	worker: {
+		format: "es",
+	},
+	build: {
+		outDir: "dist",
+		target: "ES2022", // <--------- ✅✅✅✅✅✅
 	},
 	test: {
 		setupFiles: ["./scripts/setupTest.ts"],

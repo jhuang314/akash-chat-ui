@@ -3,8 +3,9 @@
   import CarbonMicrophoneFilled from "~icons/carbon/microphone-filled";
   import CarbonMicrophoneOff from "~icons/carbon/microphone-off";
   import createModule from "$lib/transcribe/shout/shout.wasm.js";
+  //import createModule from "@transcribe/shout";
   import { StreamTranscriber  } from "$lib/transcribe";
-  import { preload, preloadModel } from "./transcribe.svelte.js";
+  // import { preload, preloadModel } from "./transcribe.svelte.js";
   import { messageInput } from "$lib/stores/message";
 
   const modelFile = '/chatui/ggml-tiny-q5_1.bin';
@@ -35,6 +36,8 @@ modelLoaded = true;
   // create a new transcriber instance with callbacks
   const transcriber = new StreamTranscriber({
     createModule,
+
+    audioWorkletsPath: '/transcribe/audio-worklets/',
 
     // model, you can try larger models, but they tend to be too slow for realtime transcription
     model: modelFile, // path to ggml model file
