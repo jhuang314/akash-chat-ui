@@ -8,7 +8,9 @@
 	import { whisperLoading } from "$lib/stores/whisperLoading";
 	import { onMount } from "svelte";
 
-	const modelFile = "/chatui/ggml-tiny-q5_1.bin";
+	//const modelFile = "/chatui/ggml-tiny-q5_1.bin";
+	const modelFile = "/chatui/ggml-base.en-q5_1.bin";
+
 	let transcribedText = "";
 
 	let microphoneStart = false;
