@@ -153,6 +153,8 @@ npm run dev -- --open
 
 ## Akash customizations on top of Huggingface
 
+### Easy integration with Akash Chat API
+
 Let's look at the `.env` file.
 
 Huggingface exposes a `MODELS` environment variable, which contains an array of model configurations.
@@ -163,3 +165,19 @@ The solution is to define a new [`src/lib/server/endpoints/akash/endpointAkash.t
 , which contains native configurations for Akash.
 This also allows us to define a new `AKASH_API_KEY` environment variable to hold the api keys.
 Finally, it allows us to provide defaults for the `baseURL` for Akash Chat API.
+
+### Local speech to text with Whisper + Web Assembly
+
+This project utilizes a modified version of [Transcribe.js](https://github.com/TranscribeJs/transcribe.js) as a starting point,
+with customizations to interact with Svelte components.
+
+In a nutshell, this project utilizes the [Whisper ggml-base.en-q5_1.bin](https://huggingface.co/ggerganov/whisper.cpp/tree/main) model compiled to WASM,
+to transform speech audio to text. Transcribe.js provides a simple abstraction layer on top of the browser audio context.
+
+Within [`src/lib/components/transcribe/Transcribe.svelte`](https://github.com/jhuang314/akash-chat-ui/blob/main/src/lib/components/transcribe/Transcribe.svelte),
+we implement a microphone button that allows users to toggle voice inputs.
+
+For performance, we utilize service workers in [`src/service-worker.js`](https://github.com/jhuang314/akash-chat-ui/blob/main/src/service-worker.js),
+to prefetch the Whisper model and cache it in the browser.
+
+NOTE: Transcribe.js only supports Chrome for streaming transcription (https://bugzilla.mozilla.org/show_bug.cgi?id=1725336).
