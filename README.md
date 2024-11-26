@@ -39,7 +39,7 @@ Build the docker image:
 docker build -t my-username/my-image:my-tag .
 
 # An explicit example:
-docker build -t jh3141/akash-chat-ui:0.0.10 .
+docker build -t jh3141/akash-chat-ui:0.0.26 .
 ```
 
 Push the docker image to docker hub
@@ -48,7 +48,7 @@ Push the docker image to docker hub
 docker push my-username/my-image:my-tag
 
 # An explicit example:
-docker push jh3141/akash-chat-ui:0.0.10
+docker push jh3141/akash-chat-ui:0.0.26
 ```
 
 ## Quickstart Deployment to Akash Network
@@ -71,14 +71,14 @@ SEARXNG_QUERY_URL=# where '<query>' will be replaced with query keywords see htt
 BING_SUBSCRIPTION_KEY=#your key
 ```
 
-If you built and pushed your own Docker image, feel free to replace `jh3141/akash-chat-ui:0.0.10` with your own.
+If you built and pushed your own Docker image, feel free to replace `jh3141/akash-chat-ui:0.0.26` with your own.
 
 ```yaml
 ---
 version: "2.0"
 services:
-  hello:
-    image: jh3141/akash-chat-ui:0.0.10
+  web:
+    image: jh3141/akash-chat-ui:0.0.26
     expose:
       - port: 3000
         as: 80
@@ -86,27 +86,31 @@ services:
           - global: true
     env:
       - AKASH_API_KEY=<YOUR_AKASH_CHAT_API_KEY>
+      - SERPER_API_KEY=<SERPER_API_KEY>
 profiles:
   compute:
-    hello:
+    web:
       resources:
         cpu:
-          units:
-            - 1
+          units: 16
         memory:
-          size: 512Mi
+          size: 8Gi
         storage:
-          - size: 2Gi
+          - size: 5Gi
   placement:
-    dcloud:
+    akash:
       pricing:
-        hello:
-          denom: uakt
+        web:
+          denom: ibc/170C677610AC31DF0904FFE09CD3B5C657492170E7E52372E48756B71E56F2F1
           amount: 10000
+      signedBy:
+        anyOf: []
+        allOf:
+          - akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63
 deployment:
-  hello:
-    dcloud:
-      profile: hello
+  web:
+    akash:
+      profile: web
       count: 1
 ```
 
