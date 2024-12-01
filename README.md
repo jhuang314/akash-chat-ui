@@ -57,21 +57,9 @@ Here are the instructions for taking a Docker image and deploying it to the Akas
 
 **Step 1 (Copy the YAML SDL config)**
 
-Copy and modify the following SDL file (but replace `<YOUR_AKASH_CHAT_API_KEY>` with your actual Akash API key).
-If you want to enable web searching, set the appropriate environment variable with your search api key:
+Copy and modify the following SDL file (but replace `<YOUR_AKASH_CHAT_API_KEY>` with your actual Akash API key,
+`<SERPER_API_KEY>` with your own serper.dev key or leave it blank).
 
-```bash
-YDC_API_KEY=#your docs.you.com api key here
-SERPER_API_KEY=#your serper.dev api key here
-SERPAPI_KEY=#your serpapi key here
-SERPSTACK_API_KEY=#your serpstack api key here
-SEARCHAPI_KEY=#your searchapi api key here
-USE_LOCAL_WEBSEARCH=#set to true to parse google results yourself, overrides other API keys
-SEARXNG_QUERY_URL=# where '<query>' will be replaced with query keywords see https://docs.searxng.org/dev/search_api.html eg https://searxng.yourdomain.com/search?q=<query>&engines=duckduckgo,google&format=json
-BING_SUBSCRIPTION_KEY=#your key
-```
-
-If you built and pushed your own Docker image, feel free to replace `jh3141/akash-chat-ui:0.0.26` with your own.
 
 ```yaml
 ---
@@ -114,13 +102,28 @@ deployment:
       count: 1
 ```
 
+If you want to enable web searching, set the appropriate environment variable with your search api key:
+
+```bash
+YDC_API_KEY=#your docs.you.com api key here
+SERPER_API_KEY=#your serper.dev api key here
+SERPAPI_KEY=#your serpapi key here
+SERPSTACK_API_KEY=#your serpstack api key here
+SEARCHAPI_KEY=#your searchapi api key here
+USE_LOCAL_WEBSEARCH=#set to true to parse google results yourself, overrides other API keys
+SEARXNG_QUERY_URL=# where '<query>' will be replaced with query keywords see https://docs.searxng.org/dev/search_api.html eg https://searxng.yourdomain.com/search?q=<query>&engines=duckduckgo,google&format=json
+BING_SUBSCRIPTION_KEY=#your key
+```
+
+If you built and pushed your own Docker image, feel free to replace `jh3141/akash-chat-ui:0.0.26` with your own.
+
 **Step 2 (Deploy to Akash console)**
 
 1. Go to the Akash console: https://console.akash.network/, and click on Deploy. Feel free to activate the $10 trial to get some funds.
 1. Click on Deploy
-1. Choose "Build your template"
+1. Choose "Run Custom Container"
 1. Switch from "Builder" tab to "YAML" tab
-1. Paste the whole YAML SDL file from above
+1. Paste the whole YAML SDL file from above. (Be sure to add your HF_TOKEN)
 1. Click "Create Deployment ->", and Confirm
 1. Pick a provider, and "Accept Bid ->"
 1. Wait a bit
@@ -177,7 +180,7 @@ to transform speech audio to text. Transcribe.js provides a simple abstraction l
 Within [`src/lib/components/transcribe/Transcribe.svelte`](https://github.com/jhuang314/akash-chat-ui/blob/main/src/lib/components/transcribe/Transcribe.svelte),
 we implement a microphone button that allows users to toggle voice inputs.
 
-For performance, we utilize service workers in [`src/service-worker.js`](https://github.com/jhuang314/akash-chat-ui/blob/main/src/service-worker.js),
+For performance and caching, we utilize service workers in [`src/service-worker.js`](https://github.com/jhuang314/akash-chat-ui/blob/main/src/service-worker.js),
 to prefetch the Whisper model and cache it in the browser.
 
 NOTE: Transcribe.js only supports Chrome for streaming transcription (https://bugzilla.mozilla.org/show_bug.cgi?id=1725336).
